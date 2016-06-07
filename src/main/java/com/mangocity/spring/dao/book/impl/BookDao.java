@@ -17,8 +17,9 @@ import com.google.common.collect.Maps;
 import com.mangocity.spring.common.exception.UtilException;
 import com.mangocity.spring.common.util.NameParameterUtils;
 import com.mangocity.spring.dao.book.IBookDao;
+import com.mangocity.spring.domain.Book;
 
-public class BookDao<Book> implements IBookDao<Book> {
+public class BookDao implements IBookDao {
 	private static Logger LOGGER = Logger.getLogger(BookDao.class);
 
 	@Resource(name = "jdbcTemplate")
@@ -29,7 +30,6 @@ public class BookDao<Book> implements IBookDao<Book> {
 
 	@Override
 	public Book findById(Long id) {
-
 		return null;
 	}
 
@@ -37,36 +37,33 @@ public class BookDao<Book> implements IBookDao<Book> {
 	public List<Book> findAll(Book t) {
 		String sql = "select * from t_book b";
 		namedParameterJdbcTemplate.query(sql, new RowMapper<Book>() {
-
 			@Override
 			public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
-
 				return null;
 			}
 		});
 		return null;
 	}
 
-	
 	@Override
-	@SuppressWarnings("unchecked")
 	public List<Book> findByCondition(Book book) {
 		String sql = "select * from t_book b where 1 = 1";
 		StringBuilder sb = new StringBuilder(sql);
 		try {
 			sb.append(NameParameterUtils.generateNameParameter(book));
-			Map<String,Object> paramMap = Maps.newHashMap();
-			return namedParameterJdbcTemplate.query(sb.toString(), NameParameterUtils.bean2Map(book), new RowMapper<Book>() {
-				@Override
-				public Book mapRow(ResultSet rs, int rowNum)
-						throws SQLException {
-					com.mangocity.spring.domain.Book books = new com.mangocity.spring.domain.Book();
-					books.setAuthor(rs.getString(""));
-					if(rs.next()){
-					}
-					return null;
-				}
-			});
+			Map<String, Object> paramMap = Maps.newHashMap();
+			return namedParameterJdbcTemplate.query(sb.toString(),
+					NameParameterUtils.bean2Map(book), new RowMapper<Book>() {
+						@Override
+						public Book mapRow(ResultSet rs, int rowNum)
+								throws SQLException {
+							com.mangocity.spring.domain.Book books = new com.mangocity.spring.domain.Book();
+							books.setAuthor(rs.getString(""));
+							if (rs.next()) {
+							}
+							return null;
+						}
+					});
 		} catch (UtilException e) {
 			LOGGER.error(e.getMessage(), e);
 		}
