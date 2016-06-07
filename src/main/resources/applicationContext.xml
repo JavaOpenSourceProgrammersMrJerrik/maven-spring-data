@@ -55,13 +55,12 @@
 			<tx:method name="view*" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
-
+	
 	<aop:config>
 		<!-- 切点 service.xx.impl.xxService()中的方法 -->
-		<aop:pointcut expression="execution(* com.mangocity.spring.service.*.impl.*(..))"
-			id="transactionPointCut" />
+		<aop:pointcut expression="execution(* com.mangocity.spring.service.*.impl.*(..))" id="transactionPointCut" />
 		<!-- 增强，进行事务控制 Advisor -->
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="transactionPointCut" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="transactionPointCut"/>
 	</aop:config>
 	
 	<import resource="applicationContext-service.xml"/>

@@ -1,4 +1,4 @@
-package com.mangocity.spring.service.book.impl;
+package com.mangocity.spring.service.book;
 
 import java.util.List;
 

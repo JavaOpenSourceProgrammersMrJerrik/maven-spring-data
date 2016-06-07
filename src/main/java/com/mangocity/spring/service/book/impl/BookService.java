@@ -1,4 +1,4 @@
-package com.mangocity.spring.service.book;
+package com.mangocity.spring.service.book.impl;
 
 import java.util.List;
 
@@ -7,10 +7,11 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
 import static com.google.common.base.Preconditions.*;
+
 import com.mangocity.spring.dao.book.IBookDao;
 import com.mangocity.spring.domain.Book;
 import com.mangocity.spring.service.base.IBaseService;
-import com.mangocity.spring.service.book.impl.IBookService;
+import com.mangocity.spring.service.book.IBookService;
 
 /**
  * BookService

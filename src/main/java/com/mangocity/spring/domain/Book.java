@@ -30,6 +30,11 @@ public class Book implements Serializable {
 	 * 书类型
 	 */
 	private String bookType;
+	
+	public Book() {
+		super();
+		
+	}
 
 	public Long getId() {
 		return id;
