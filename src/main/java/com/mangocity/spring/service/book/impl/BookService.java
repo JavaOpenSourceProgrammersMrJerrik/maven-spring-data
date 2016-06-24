@@ -1,12 +1,12 @@
 package com.mangocity.spring.service.book.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-
-import static com.google.common.base.Preconditions.*;
 
 import com.mangocity.spring.dao.book.IBookDao;
 import com.mangocity.spring.domain.Book;
@@ -22,7 +22,7 @@ public class BookService extends IBaseService implements IBookService{
 	private static Logger LOGGER = Logger.getLogger(BookService.class);
 	
 	@Resource(name = "bookDao")
-	private IBookDao<Book> bookDao;
+	private IBookDao bookDao;
 	/**
 	 * 根据作者检索所有书籍
 	 */
