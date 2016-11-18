@@ -14,9 +14,48 @@
 			http://www.springframework.org/schema/tx 
 			http://www.springframework.org/schema/tx/spring-tx.xsd ">
 
+	<aop:aspectj-autoproxy />
+
 	<context:property-placeholder location="classpath:jdbc.properties" />
 
 	<context:component-scan base-package="com.mangocity.spring"></context:component-scan>
+
+	<bean id="test" class="com.mangocity.spring.aspect.TestBean"></bean>
+
+	<bean id="helloServiceImpl" class="com.mangocity.spring.proxy.HelloServiceImpl"></bean>
+	
+	<bean id="helloAfterAdvice" class="com.mangocity.spring.proxy.HelloServiceAfterAdvice"></bean>
+	
+	<bean id="helloAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref bean="helloAfterAdvice" />
+		</property>
+		<!--指定要代理的方法 -->
+		<property name="patterns">
+			<value>.*sayHello.* </value>
+		</property>
+	</bean>
+	
+	<!-- 代理工厂 -->
+	<bean id="helloProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<!--这里代理的是接口 -->
+		<property name="proxyInterfaces">
+			<value>com.mangocity.spring.proxy.IHelloService</value>
+		</property>
+		<!--是ProxyFactoryBean要代理的目标类 -->
+		<property name="target">
+			<ref bean="helloServiceImpl" />
+		</property>
+		<!--程序中的Advice -->
+		<property name="interceptorNames">
+			<list>
+				<value>helloAdvisor</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 切面 必须配置<aop:aspectj-autoproxy /> -->
+	<bean class="com.mangocity.spring.aspect.AspectTest"></bean>
 
 	<!-- 3.数据库链接 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -60,7 +99,7 @@
 	</tx:advice>
 
 	<aop:config>
-		<!-- 切点 service下的所有包 -->
+		<!-- 切点 service.xx.impl.xxService()中的方法 -->
 		<aop:pointcut expression="execution(* com.mangocity.spring.service..*.*(..))"
 			id="transactionPointCut" />
 		<!-- 增强，进行事务控制 Advisor -->

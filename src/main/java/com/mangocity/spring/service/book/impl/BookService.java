@@ -34,5 +34,17 @@ public class BookService extends IBaseService implements IBookService{
 		return bookDao.findAll(book);
 	}
 	
+	public Book findById(Long id){
+		LOGGER.info("BookService findById begin()..." + id);
+		return this.bookDao.findById(id);
+	}
+	
+	
+	public int updateBook(Book book){
+		LOGGER.info("BookService updateBook begin()..." + book);
+		int row = this.bookDao.updateOne(book);
+		int i = 1/0;
+		return row;
+	}
 
 }

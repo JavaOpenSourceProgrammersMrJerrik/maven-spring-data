@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -30,7 +31,9 @@ public class BookDao implements IBookDao {
 
 	@Override
 	public Book findById(Long id) {
-		return null;
+		return this.jdbcTemplate.queryForObject(
+				"select * from t_book where id=?", new Object[] { id },
+				new BeanPropertyRowMapper(Book.class));
 	}
 
 	@Override
@@ -78,8 +81,9 @@ public class BookDao implements IBookDao {
 
 	@Override
 	public int updateOne(Book t) {
-
-		return 0;
+		return this.jdbcTemplate.update(
+				"update t_book b set b.book_name=?,b.book_type=? where b.id=?",
+				new Object[] { t.getBookName(), t.getBookType(), t.getId() });
 	}
 
 	@Override
