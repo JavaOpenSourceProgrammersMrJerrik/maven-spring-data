@@ -47,6 +47,8 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<bean id="hello" class="com.mangocity.spring.init.InitialBeanHello" init-method="hello"></bean>
 
 	<tx:advice id="txAdvice" transaction-manager="txManager">
 		<tx:attributes>

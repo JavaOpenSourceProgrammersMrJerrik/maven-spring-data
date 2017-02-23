@@ -20,7 +20,7 @@
 
 	<context:component-scan base-package="com.mangocity.spring"></context:component-scan>
 
-	<bean id="test" class="com.mangocity.spring.aspect.TestBean"></bean>
+<!-- 	<bean id="test" class="com.mangocity.spring.aspect.TestBean"></bean>
 
 	<bean id="helloServiceImpl" class="com.mangocity.spring.proxy.HelloServiceImpl"></bean>
 	
@@ -30,32 +30,42 @@
 		<property name="advice">
 			<ref bean="helloAfterAdvice" />
 		</property>
-		<!--指定要代理的方法 -->
+		指定要代理的方法
 		<property name="patterns">
 			<value>.*sayHello.* </value>
 		</property>
+	</bean> -->
+	
+	<bean class="com.mangocity.spring.init.InitialBeanHello"></bean>
+	
+	<!-- 用于BeanFactoryPostProcessor修改属性 -->
+	<bean id="book" class="com.mangocity.spring.domain.Book">
+		<property name="bookName" value="Effective java"></property>
 	</bean>
 	
+	<bean class="com.mangocity.spring.postprocessor.MyBeanFactoryPostProcessor"/>
+	<bean class="com.mangocity.spring.postprocessor.HelloPostProcessor"/>
+	
 	<!-- 代理工厂 -->
-	<bean id="helloProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
-		<!--这里代理的是接口 -->
+	<!-- <bean id="helloProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		这里代理的是接口
 		<property name="proxyInterfaces">
 			<value>com.mangocity.spring.proxy.IHelloService</value>
 		</property>
-		<!--是ProxyFactoryBean要代理的目标类 -->
+		是ProxyFactoryBean要代理的目标类
 		<property name="target">
 			<ref bean="helloServiceImpl" />
 		</property>
-		<!--程序中的Advice -->
+		程序中的Advice
 		<property name="interceptorNames">
 			<list>
 				<value>helloAdvisor</value>
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 
 	<!-- 切面 必须配置<aop:aspectj-autoproxy /> -->
-	<bean class="com.mangocity.spring.aspect.AspectTest"></bean>
+	<!-- <bean class="com.mangocity.spring.aspect.AspectTest"></bean> -->
 
 	<!-- 3.数据库链接 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -82,7 +92,7 @@
 	</bean>
 
 	<!-- 7.事务 -->
-	<bean id="txManager"
+	<!-- <bean id="txManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
@@ -99,14 +109,14 @@
 	</tx:advice>
 
 	<aop:config>
-		<!-- 切点 service.xx.impl.xxService()中的方法 -->
+		切点 service.xx.impl.xxService()中的方法
 		<aop:pointcut expression="execution(* com.mangocity.spring.service..*.*(..))"
 			id="transactionPointCut" />
-		<!-- 增强，进行事务控制 Advisor -->
+		增强，进行事务控制 Advisor
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="transactionPointCut" />
-	</aop:config>
+	</aop:config> -->
 
-	<import resource="applicationContext-service.xml" />
+	<!-- <import resource="applicationContext-service.xml" />
 
-	<import resource="applicationContext-dao.xml" />
+	<import resource="applicationContext-dao.xml" /> -->
 </beans>
